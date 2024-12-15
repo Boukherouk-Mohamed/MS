@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: garage-service
+  namespace: my-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: garage-service
+  template:
+    metadata:
+      labels:
+        app: garage-service
+    spec:
+      containers:
+        - name: garage-service
+          image: boukheroukmohamed/garage-service:latest
+          ports:
+            - containerPort: 8082
+          envFrom:
+            - configMapRef:
+                name: discovery-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: garage-service
+  namespace: my-namespace
+spec:
+  ports:
+    - port: 8082
+  selector:
+    app: garage-service

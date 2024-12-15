@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service
+  namespace: my-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway-service
+  template:
+    metadata:
+      labels:
+        app: gateway-service
+    spec:
+      containers:
+        - name: gateway-service
+          image: boukheroukmohamed/gateway-service:latest
+          ports:
+            - containerPort: 8888
+          envFrom:
+            - configMapRef:
+                name: discovery-service-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-service
+  namespace: my-namespace
+spec:
+  ports:
+    - port: 8888
+  selector:
+    app: gateway-service
