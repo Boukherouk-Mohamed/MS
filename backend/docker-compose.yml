@@ -1,0 +1,125 @@
+version: '3.8'
+
+networks:
+  my-network:
+    driver: bridge
+
+services:
+  client-service:
+    container_name: client-service
+    image: boukheroukmohamed/client-service:latest
+    networks:
+      - my-network
+    build:
+      context: ./client-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service:8761/eureka
+    depends_on:
+      - discovery-service
+      - mongo-db
+
+
+  garage-service:
+    container_name: garage-service
+    image: boukheroukmohamed/garage-service:latest
+    networks:
+      - my-network
+    build:
+      context: ./garage-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service:8761/eureka
+    depends_on:
+      - client-service
+
+
+  discovery-service:
+    container_name: discovery-service
+    image: boukheroukmohamed/discovery-service:latest
+    networks:
+      - my-network
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service:8761/eureka
+
+  gateway-service:
+    container_name: gateway-service
+    image: boukheroukmohamed/gateway-service:latest
+    networks:
+      - my-network
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service:8761/eureka
+
+  planification-service:
+    container_name: planification-service
+    image: boukheroukmohamed/planification-service:latest
+    networks:
+      - my-network
+    build:
+      context: ./planification-service
+      dockerfile: Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service:8761/eureka
+    depends_on:
+      - garage-service
+
+  notification-service:
+    container_name: notification-service
+    image: boukheroukmohamed/notification-service:latest
+    networks:
+      - my-network
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service:8761/eureka
+    depends_on:
+      - planification-service
+
+  facture-service:
+    container_name: facture-service
+    image: boukheroukmohamed/facture-service:latest
+    networks:
+      - my-network
+    build:
+      context: ./facture-service
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8088"
+    environment:
+      - DISCOVERY_SERVICE_URL=http://discovery-service:8761/eureka
+    depends_on:
+      - garage-service
+
+  mongo-db:
+    image: mongo:latest
+    networks:
+      - my-network
+    container_name: mongodb-container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    #restart: always
+
+volumes:
+  mongo-data:
+    driver: local

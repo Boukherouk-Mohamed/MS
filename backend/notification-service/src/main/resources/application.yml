@@ -1,0 +1,16 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    username: boukherouk.mohamed@gmail.com
+    password: uxokowrisggzitpe  # Ensure this is the App Password
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000

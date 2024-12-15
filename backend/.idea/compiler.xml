@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="gateway-service (1)" />
+        <module name="planification-service" />
+        <module name="garage-service" />
+        <module name="facture-service" />
+        <module name="gateway-service" />
+        <module name="notification-service" />
+        <module name="discovery-service" />
+        <module name="client-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="garage-manager" target="17" />
+      <module name="TravailMaintenance-Service" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="TravailMaintenance-Service" options="-parameters" />
+      <module name="client-service" options="-parameters" />
+      <module name="discovery-service" options="-parameters" />
+      <module name="facture-service" options="-parameters" />
+      <module name="garage-manager" options="-parameters" />
+      <module name="garage-service" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
+      <module name="gateway-service (1)" options="-parameters" />
+      <module name="notification-service" options="-parameters" />
+      <module name="planification-service" options="-parameters" />
+    </option>
+  </component>
+</project>
